@@ -7,7 +7,7 @@
 class Player
 {
 public:
-	Player(float _x, float _y, float _sizeX, float _sizeY, float _speedX, float _jumpspeed, float _maxEnergy);
+	Player(float _x, float _y, float _sizeX, float _sizeY, float _speedX, float _jumpspeed, float _maxEnergy, char* _charsetpath);
 	~Player();
 
 	void update(const std::vector<sf::RectangleShape*>& _colliders, float _delta);
@@ -34,6 +34,10 @@ private:
 	bool colRight, colLeft, colTop, colBottom;
 	float m_Energy, m_MaxEnergy;
 
+	std::vector<sf::Sprite*> m_Charsets;
+	std::vector<sf::Sprite*> m_CurrentEnergyNum;
+
+	sf::Texture* m_CharSetTexture;
 	sf::Texture* m_BatteryTexture;
 	sf::RectangleShape* m_Battery;
 	sf::RectangleShape* m_EnergyIndicator;

@@ -40,7 +40,7 @@ int game(sf::RenderWindow* window)
 {
 	genTileTextures("res/textures/tilesheet.png", 64);
 
-	Player player(64.f, 10.f, 64.f, 64.f, 350.f, 800.f, 110.f);
+	Player player(64.f, 10.f, 64.f, 64.f, 350.f, 800.f, 150.f, "res/textures/charset.png");
 
 	std::vector<Tile*> ground;
 	std::vector<sf::RectangleShape*> colliders;
@@ -102,6 +102,7 @@ int game(sf::RenderWindow* window)
 
 	sf::Sprite* SpidersheetSprite = new sf::Sprite(*getSheet("res/textures/spidersheet.png"));
 	sf::Sprite* RobotsheetSprite = new sf::Sprite(*getSheet("res/textures/robotsheet.png"));
+	sf::Sprite* SkeletonsheetSprite = new sf::Sprite(*getSheet("res/textures/skeletonsheet.png"));
 
 	bool forceEnergyUpdate = false;
 
@@ -198,13 +199,17 @@ int game(sf::RenderWindow* window)
 					}
 
 					int num = genItemType(rng);
-					if (num >= 0 && num <= 600)
+					if (num >= 0 && num <= 500)
 					{
-						enemies.push_back(new Enemy(xPos, window->getSize().y - TILE_SIZE * 2 - 1, 32.f, 32.f, 110.f, 100.f, 1.f, SpidersheetSprite));
+						enemies.push_back(new Enemy(xPos, window->getSize().y - TILE_SIZE * 2 - 1, 32.f, 32.f, 110.f, 100.f, 2.f, SpidersheetSprite));
 					}
-					else if (num >= 601 && num <= 1000)
+					else if (num >= 501 && num <= 900)
 					{
-						enemies.push_back(new Enemy(xPos, window->getSize().y - TILE_SIZE * 2 - 1, 32.f, 32.f, 80.f, 30.f, 4.f, RobotsheetSprite));
+						enemies.push_back(new Enemy(xPos, window->getSize().y - TILE_SIZE * 2 - 1, 32.f, 32.f, 80.f, 30.f, 5.f, RobotsheetSprite));
+					}
+					else if (num >= 901 && num <= 1000)
+					{
+						enemies.push_back(new Enemy(xPos, window->getSize().y - TILE_SIZE * 2 - 1, 32.f, 32.f, 200.f, 60.f, 10.f, SkeletonsheetSprite));
 					}
 				}
 			}
@@ -234,20 +239,19 @@ int game(sf::RenderWindow* window)
 			{
 				if (enemies[i]->getHealth() <= 0)
 				{
-					if (genShouldDrop(rng) > 50)
+					if (genShouldDrop(rng) > 50 || enemies[i]->getDamage() >= 8.f)
 					{
-
 						int num = genItemType(rng);
 
-						if (num >= 0 && num <= 500)
+						if (num >= 0 && num <= 600)
 						{
-							items.push_back(new Item(enemies[i]->getX(), window->getSize().y - TILE_SIZE * 2 - 16, batterySprite, [&player] { player.addEnergy(50); }));
+							items.push_back(new Item(enemies[i]->getX(), window->getSize().y - TILE_SIZE * 2 - 16, batterySprite, [&player] { player.addEnergy(player.getMaxEnergy() / 100 * 25); }));
 						}
-						else if (num >= 501 && num <= 900)
+						else if (num >= 601 && num <= 950)
 						{
 							items.push_back(new Item(enemies[i]->getX(), window->getSize().y - TILE_SIZE * 2 - 16, damageUpSprite, [&playerDamage] { playerDamage += 5.f; }));
 						}
-						else if (num >= 901 && num <= 1000)
+						else if (num >= 951 && num <= 1000)
 						{
 							items.push_back(new Item(enemies[i]->getX(), window->getSize().y - TILE_SIZE * 2 - 16, maxEnergyUpSprite, [&player] { player.increaseMaxEnergy(40); }));
 						}

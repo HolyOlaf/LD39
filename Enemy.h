@@ -14,7 +14,9 @@ public:
 	void draw(sf::RenderWindow& _window);
 
 	inline void damage(float _dmg) { m_Health -= _dmg; }
+	inline float getDamage() { return m_Damage; }
 	inline float getHealth() { return m_Health; }
+	inline float getMaxHealth() { return m_MaxHealth; }
 	inline sf::Sprite getSprite() const { return m_Sprite; }
 
 	inline float getX() { return m_Sprite.getPosition().x; }
@@ -24,7 +26,7 @@ public:
 
 private:
 	float m_SpeedX;
-	float m_Health;
+	float m_Health, m_MaxHealth;
 	bool m_Jump, m_Falling;
 	bool m_Dead;
 	float m_Damage;

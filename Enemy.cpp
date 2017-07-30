@@ -12,6 +12,7 @@ Enemy::Enemy(float _x, float _y, float _sizeX, float _sizeY, float _speedX, floa
 	m_SpeedX = _speedX;
 
 	m_Health = _health;
+	m_MaxHealth = _health;
 	m_Damage = _damage;
 
 	m_Dead = false;

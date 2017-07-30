@@ -3,8 +3,9 @@
 #include "Tile.h"
 
 #include <iostream>
+#include <string>
 
-Player::Player(float _x, float _y, float _sizeX, float _sizeY, float _speedX, float _jumpspeed, float _maxEnergy)
+Player::Player(float _x, float _y, float _sizeX, float _sizeY, float _speedX, float _jumpspeed, float _maxEnergy, char* _charsetpath)
 {
 	m_Drawable = new sf::RectangleShape(sf::Vector2f(_sizeX, _sizeY));
 	m_Texture = new sf::Texture;
@@ -37,6 +38,25 @@ Player::Player(float _x, float _y, float _sizeX, float _sizeY, float _speedX, fl
 	m_JumpSpeed = _jumpspeed;
 	m_MaxEnergy = _maxEnergy;
 	m_Energy = m_MaxEnergy;
+
+	m_CharSetTexture = new sf::Texture;
+	m_CharSetTexture->loadFromFile(_charsetpath);
+
+	for (int i = 0; i < 8; i++)
+	{
+		m_Charsets.push_back(new sf::Sprite(*m_CharSetTexture, sf::IntRect(i * 8, 0, 8, 8)));
+	}
+
+	for (int i = 0; i < 8; i++)
+	{
+		m_Charsets.push_back(new sf::Sprite(*m_CharSetTexture, sf::IntRect(i * 8, 8, 8, 8)));
+	}
+
+	for (int i = 0; i < 11; i++)
+	{
+		m_CurrentEnergyNum.push_back(new sf::Sprite(*m_Charsets[0]));
+		m_CurrentEnergyNum[i]->setPosition(m_Battery->getPosition().x + m_Battery->getSize().x + 10 + i * 9, 10);
+	}
 }
 
 Player::~Player()
@@ -126,6 +146,97 @@ void Player::update(const std::vector<sf::RectangleShape*>& _colliders, float _d
 	m_EnergyIndicator->setSize(sf::Vector2f(8, pixelHeight));
 	float yPos = m_EnergyIndicatorStartPos.y + (60 - pixelHeight);
 	m_EnergyIndicator->setPosition(m_EnergyIndicatorStartPos.x, yPos);
+
+	std::string energystring = std::to_string((int)m_Energy);
+	for (int i = energystring.length(); i < 5; i++)
+	{
+		energystring = "0" + energystring;
+	}
+	energystring += "/";
+
+	std::string maxenergystring = std::to_string((int)m_MaxEnergy);
+	for (int i = maxenergystring.length(); i < 5; i++)
+	{
+		maxenergystring = "0" + maxenergystring;
+	}
+
+	energystring += maxenergystring;
+
+	for (int i = 0; i < energystring.length(); i++)
+	{
+		sf::Sprite* character;
+		
+		int index = i;
+
+		sf::Vector2f pos = m_CurrentEnergyNum[index]->getPosition();
+
+		if (energystring[i] == '0')
+		{
+			delete m_CurrentEnergyNum[index];
+			m_CurrentEnergyNum[index] = new sf::Sprite(*m_Charsets[0]);
+			m_CurrentEnergyNum[index]->setPosition(pos);
+		}
+		else if (energystring[i] == '1')
+		{
+			delete m_CurrentEnergyNum[index];
+			m_CurrentEnergyNum[index] = new sf::Sprite(*m_Charsets[1]);
+			m_CurrentEnergyNum[index]->setPosition(pos);
+		}
+		else if (energystring[i] == '2')
+		{
+			delete m_CurrentEnergyNum[index];
+			m_CurrentEnergyNum[index] = new sf::Sprite(*m_Charsets[2]);
+			m_CurrentEnergyNum[index]->setPosition(pos);
+		}
+		else if (energystring[i] == '3')
+		{
+			delete m_CurrentEnergyNum[index];
+			m_CurrentEnergyNum[index] = new sf::Sprite(*m_Charsets[3]);
+			m_CurrentEnergyNum[index]->setPosition(pos);
+		}
+		else if (energystring[i] == '4')
+		{
+			delete m_CurrentEnergyNum[index];
+			m_CurrentEnergyNum[index] = new sf::Sprite(*m_Charsets[4]);
+			m_CurrentEnergyNum[index]->setPosition(pos);
+		}
+		else if (energystring[i] == '5')
+		{
+			delete m_CurrentEnergyNum[index];
+			m_CurrentEnergyNum[index] = new sf::Sprite(*m_Charsets[5]);
+			m_CurrentEnergyNum[index]->setPosition(pos);
+		}
+		else if (energystring[i] == '6')
+		{
+			delete m_CurrentEnergyNum[index];
+			m_CurrentEnergyNum[index] = new sf::Sprite(*m_Charsets[6]);
+			m_CurrentEnergyNum[index]->setPosition(pos);
+		}
+		else if (energystring[i] == '7')
+		{
+			delete m_CurrentEnergyNum[index];
+			m_CurrentEnergyNum[index] = new sf::Sprite(*m_Charsets[7]);
+			m_CurrentEnergyNum[index]->setPosition(pos);
+		}
+		else if (energystring[i] == '8')
+		{
+			delete m_CurrentEnergyNum[index];
+			m_CurrentEnergyNum[index] = new sf::Sprite(*m_Charsets[8]);
+			m_CurrentEnergyNum[index]->setPosition(pos);
+		}
+		else if (energystring[i] == '9')
+		{
+			delete m_CurrentEnergyNum[index];
+			m_CurrentEnergyNum[index] = new sf::Sprite(*m_Charsets[9]);
+			m_CurrentEnergyNum[index]->setPosition(pos);
+		}
+		else if (energystring[i] == '/')
+		{
+			delete m_CurrentEnergyNum[index];
+			m_CurrentEnergyNum[index] = new sf::Sprite(*m_Charsets[10]);
+			m_CurrentEnergyNum[index]->setPosition(pos);
+		}
+	}
 }
 
 void Player::draw(sf::RenderWindow&_window)
@@ -133,4 +244,9 @@ void Player::draw(sf::RenderWindow&_window)
 	_window.draw(*m_Battery);
 	_window.draw(*m_EnergyIndicator);
 	_window.draw(*m_Drawable);
+
+	for (int i = 0; i < m_CurrentEnergyNum.size(); i++)
+	{
+		_window.draw(*m_CurrentEnergyNum[i]);
+	}
 }
