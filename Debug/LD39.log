@@ -1,0 +1,33 @@
+﻿  Main.cpp
+e:\c++\ld39\ld39\main.cpp(21): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+e:\c++\ld39\ld39\main.cpp(23): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+e:\c++\ld39\ld39\main.cpp(67): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+e:\c++\ld39\ld39\main.cpp(69): warning C4244: "Argument": Konvertierung von "unsigned int" in "float", möglicher Datenverlust
+e:\c++\ld39\ld39\main.cpp(69): warning C4244: "Argument": Konvertierung von "int" in "float", möglicher Datenverlust
+e:\c++\ld39\ld39\main.cpp(73): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+e:\c++\ld39\ld39\main.cpp(75): warning C4244: "Argument": Konvertierung von "unsigned int" in "float", möglicher Datenverlust
+e:\c++\ld39\ld39\main.cpp(75): warning C4244: "Argument": Konvertierung von "int" in "float", möglicher Datenverlust
+e:\c++\ld39\ld39\main.cpp(81): warning C4244: "Argument": Konvertierung von "unsigned int" in "float", möglicher Datenverlust
+e:\c++\ld39\ld39\main.cpp(82): warning C4244: "Argument": Konvertierung von "unsigned int" in "float", möglicher Datenverlust
+e:\c++\ld39\ld39\main.cpp(88): warning C4244: "Argument": Konvertierung von "unsigned int" in "float", möglicher Datenverlust
+e:\c++\ld39\ld39\main.cpp(90): warning C4244: "Argument": Konvertierung von "unsigned int" in "float", möglicher Datenverlust
+e:\c++\ld39\ld39\main.cpp(93): warning C4244: "Argument": Konvertierung von "unsigned int" in "float", möglicher Datenverlust
+e:\c++\ld39\ld39\main.cpp(95): warning C4244: "Argument": Konvertierung von "unsigned int" in "float", möglicher Datenverlust
+e:\c++\ld39\ld39\main.cpp(97): warning C4244: "Argument": Konvertierung von "unsigned int" in "float", möglicher Datenverlust
+e:\c++\ld39\ld39\main.cpp(99): warning C4244: "Argument": Konvertierung von "unsigned int" in "float", möglicher Datenverlust
+e:\c++\ld39\ld39\main.cpp(100): warning C4244: "Argument": Konvertierung von "unsigned int" in "float", möglicher Datenverlust
+e:\c++\ld39\ld39\main.cpp(112): warning C4244: "Argument": Konvertierung von "time_t" in "unsigned int", möglicher Datenverlust
+e:\c++\ld39\ld39\main.cpp(157): warning C4244: "Argument": Konvertierung von "double" in "float", möglicher Datenverlust
+e:\c++\ld39\ld39\main.cpp(202): warning C4244: "Argument": Konvertierung von "unsigned int" in "float", möglicher Datenverlust
+e:\c++\ld39\ld39\main.cpp(202): warning C4244: "Argument": Konvertierung von "int" in "float", möglicher Datenverlust
+e:\c++\ld39\ld39\main.cpp(206): warning C4244: "Argument": Konvertierung von "unsigned int" in "float", möglicher Datenverlust
+e:\c++\ld39\ld39\main.cpp(206): warning C4244: "Argument": Konvertierung von "int" in "float", möglicher Datenverlust
+e:\c++\ld39\ld39\main.cpp(213): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+e:\c++\ld39\ld39\main.cpp(218): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+e:\c++\ld39\ld39\main.cpp(232): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+e:\c++\ld39\ld39\main.cpp(243): warning C4244: "Argument": Konvertierung von "unsigned int" in "float", möglicher Datenverlust
+e:\c++\ld39\ld39\main.cpp(247): warning C4244: "Argument": Konvertierung von "unsigned int" in "float", möglicher Datenverlust
+e:\c++\ld39\ld39\main.cpp(251): warning C4244: "Argument": Konvertierung von "unsigned int" in "float", möglicher Datenverlust
+e:\c++\ld39\ld39\main.cpp(266): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+  LD39.vcxproj -> E:\C++\LD39\Debug\LD39.exe
+  LD39.vcxproj -> E:\C++\LD39\Debug\LD39.pdb (Partial PDB)

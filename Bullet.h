@@ -10,7 +10,7 @@ public:
 	Bullet(sf::Sprite* _spr, sf::Vector2f _startPos, sf::Vector2f _direction, float _angle, float _speed, float _dmg);
 	~Bullet();
 
-	void update(std::vector<Enemy*>& _enemies);
+	void update(std::vector<Enemy*>& _enemies, float _delta);
 	void draw(sf::RenderWindow& _window);
 
 	inline float getX() { return m_Sprite.getPosition().x; }

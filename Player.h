@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#define GRAVITY 0.0005f
+#define GRAVITY 30.f
 
 class Player
 {
@@ -10,7 +10,7 @@ public:
 	Player(float _x, float _y, float _sizeX, float _sizeY, float _speedX, float _jumpspeed, float _maxEnergy);
 	~Player();
 
-	void update(const std::vector<sf::RectangleShape*>& _colliders);
+	void update(const std::vector<sf::RectangleShape*>& _colliders, float _delta);
 	void draw(sf::RenderWindow& _window);
 	inline void jump() { if (colBottom) m_Jump = true; }
 

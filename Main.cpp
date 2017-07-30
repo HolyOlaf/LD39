@@ -39,7 +39,7 @@ int game(sf::RenderWindow* window)
 {
 	genTileTextures("res/textures/tilesheet.png", 64);
 
-	Player player(64.f, 10.f, 64.f, 64.f, 0.08f, 0.5f, 150.f);
+	Player player(64.f, 10.f, 64.f, 64.f, 350.f, 800.f, 150.f);
 
 	std::vector<Tile*> ground;
 	std::vector<sf::RectangleShape*> colliders;
@@ -99,6 +99,9 @@ int game(sf::RenderWindow* window)
 	lanternBottom2->setPosition(TILE_SIZE * 6, window->getSize().y - TILE_SIZE * 3);
 	lanternTop2->setPosition(TILE_SIZE * 6, window->getSize().y - TILE_SIZE * 4);
 
+	sf::Sprite* SpidersheetSprite = new sf::Sprite(*getSheet("res/textures/spidersheet.png"));
+	sf::Sprite* RobotsheetSprite = new sf::Sprite(*getSheet("res/textures/robotsheet.png"));
+
 	bool forceEnergyUpdate = false;
 
 	sf::Vector2i mousePos;
@@ -110,6 +113,7 @@ int game(sf::RenderWindow* window)
 	std::uniform_int_distribution<int> genEnemyPos(0, window->getSize().x);
 	std::uniform_int_distribution<int> genItemType(0, 1000);
 	std::uniform_int_distribution<int> genEnemyType(0, 1000);
+	std::uniform_int_distribution<int> genShouldDrop(0, 100);
 
 	float playerDamage = 8.0f;
 
@@ -117,8 +121,12 @@ int game(sf::RenderWindow* window)
 	int spawnAmount = 1;
 	int spawnTime = 3000;
 	
+	sf::Clock deltaClock;
+
 	while (window->isOpen())
 	{
+		sf::Time dt = deltaClock.restart();
+
 		mousePos = sf::Mouse::getPosition(*window);
 
 		forceEnergyUpdate = false;
@@ -146,7 +154,7 @@ int game(sf::RenderWindow* window)
 				if (evnt.mouseButton.button == sf::Mouse::Button::Left)
 				{
 					float angle = atan2(mousePos.y - (player.getY() + player.getXSize() / 2), mousePos.x - (player.getX() + player.getYSize() / 2));
-					bullets.push_back(new Bullet(bulletSprite, sf::Vector2f(player.getX() + player.getXSize() / 2, player.getY() + player.getYSize() / 2), sf::Vector2f(cos(angle), sin(angle)), angle * (180 / PI), 0.5f, playerDamage));
+					bullets.push_back(new Bullet(bulletSprite, sf::Vector2f(player.getX() + player.getXSize() / 2, player.getY() + player.getYSize() / 2), sf::Vector2f(cos(angle), sin(angle)), angle * (180 / PI), 400.f, playerDamage));
 					player.removeEnergy(3);
 					forceEnergyUpdate = true;
 				}
@@ -191,16 +199,16 @@ int game(sf::RenderWindow* window)
 					int num = genItemType(rng);
 					if (num >= 0 && num <= 500)
 					{
-						enemies.push_back(new Enemy(xPos, window->getSize().y - TILE_SIZE * 2 - 1, 32.f, 32.f, 0.07f, 100.f, 0.002f, getSheet("res/textures/spidersheet.png")));
+						enemies.push_back(new Enemy(xPos, window->getSize().y - TILE_SIZE * 2 - 1, 32.f, 32.f, 110.f, 100.f, 1.f, SpidersheetSprite));
 					}
 					else if (num >= 501 && num <= 1000)
 					{
-						enemies.push_back(new Enemy(xPos, window->getSize().y - TILE_SIZE * 2 - 1, 32.f, 32.f, 0.04f, 30.f, 0.01f, getSheet("res/textures/robotsheet.png")));
+						enemies.push_back(new Enemy(xPos, window->getSize().y - TILE_SIZE * 2 - 1, 32.f, 32.f, 80.f, 30.f, 2.f, RobotsheetSprite));
 					}
 				}
 			}
 
-			player.update(colliders);
+			player.update(colliders, dt.asSeconds());
 
 			for (int i = 0; i < ground.size(); i++)
 			{
@@ -216,7 +224,7 @@ int game(sf::RenderWindow* window)
 				}
 				else
 				{
-					bullets[i]->update(enemies);
+					bullets[i]->update(enemies, dt.asSeconds());
 					bullets[i]->draw(*window);
 				}
 			}
@@ -225,19 +233,23 @@ int game(sf::RenderWindow* window)
 			{
 				if (enemies[i]->getHealth() <= 0)
 				{
-					int num = genItemType(rng);
+					if (genShouldDrop(rng) > 50)
+					{
 
-					if (num >= 0 && num <= 500)
-					{
-						items.push_back(new Item(enemies[i]->getX(), window->getSize().y - TILE_SIZE * 2 - 16, batterySprite, [&player] { player.addEnergy(50); }));
-					}
-					else if (num >= 501 && num <= 900)
-					{
-						items.push_back(new Item(enemies[i]->getX(), window->getSize().y - TILE_SIZE * 2 - 16, damageUpSprite, [&playerDamage] { playerDamage += 5.f; }));
-					}
-					else if (num >= 901 && num <= 1000)
-					{
-						items.push_back(new Item(enemies[i]->getX(), window->getSize().y - TILE_SIZE * 2 - 16, maxEnergyUpSprite, [&player] { player.increaseMaxEnergy(40); }));
+						int num = genItemType(rng);
+
+						if (num >= 0 && num <= 500)
+						{
+							items.push_back(new Item(enemies[i]->getX(), window->getSize().y - TILE_SIZE * 2 - 16, batterySprite, [&player] { player.addEnergy(50); }));
+						}
+						else if (num >= 501 && num <= 900)
+						{
+							items.push_back(new Item(enemies[i]->getX(), window->getSize().y - TILE_SIZE * 2 - 16, damageUpSprite, [&playerDamage] { playerDamage += 5.f; }));
+						}
+						else if (num >= 901 && num <= 1000)
+						{
+							items.push_back(new Item(enemies[i]->getX(), window->getSize().y - TILE_SIZE * 2 - 16, maxEnergyUpSprite, [&player] { player.increaseMaxEnergy(40); }));
+						}
 					}
 
 					enemies[i]->die();
@@ -246,7 +258,7 @@ int game(sf::RenderWindow* window)
 				}
 				else
 				{
-					enemies[i]->update(&player);
+					enemies[i]->update(&player, dt.asSeconds());
 					enemies[i]->draw(*window);
 				}
 			}
@@ -287,8 +299,9 @@ int game(sf::RenderWindow* window)
 
 int main()
 {
-	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(500, 500), "LD39");
-	
+	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(500, 500), "LD39", sf::Style::Close);
+	window->setFramerateLimit(60);
+
 	while (game(window) == 1)
 	{
 		game(window);

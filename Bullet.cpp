@@ -15,9 +15,9 @@ Bullet::~Bullet()
 {
 }
 
-void Bullet::update(std::vector<Enemy*>& _enemies)
+void Bullet::update(std::vector<Enemy*>& _enemies, float _delta)
 {
-	m_Sprite.move(m_Direction * m_Speed);
+	m_Sprite.move((m_Direction * m_Speed) * _delta);
 
 	for (auto enemy : _enemies)
 	{

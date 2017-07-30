@@ -2,6 +2,8 @@
 
 #include "Tile.h"
 
+#include <iostream>
+
 Player::Player(float _x, float _y, float _sizeX, float _sizeY, float _speedX, float _jumpspeed, float _maxEnergy)
 {
 	m_Drawable = new sf::RectangleShape(sf::Vector2f(_sizeX, _sizeY));
@@ -41,7 +43,7 @@ Player::~Player()
 {
 }
 
-void Player::update(const std::vector<sf::RectangleShape*>& _colliders)
+void Player::update(const std::vector<sf::RectangleShape*>& _colliders, float _delta)
 {
 	if (m_Jump)
 	{
@@ -72,7 +74,7 @@ void Player::update(const std::vector<sf::RectangleShape*>& _colliders)
 	if (m_Energy > m_MaxEnergy)
 		m_Energy = m_MaxEnergy;
 
-	m_Drawable->move(m_Velocity);
+	m_Drawable->move(m_Velocity * _delta);
 
 	m_RightBox->setPosition(m_Drawable->getPosition().x + m_Drawable->getSize().x, m_Drawable->getPosition().y + 1);
 	m_LeftBox->setPosition(m_Drawable->getPosition().x - m_LeftBox->getSize().x, m_Drawable->getPosition().y + 1);
@@ -92,12 +94,10 @@ void Player::update(const std::vector<sf::RectangleShape*>& _colliders)
 		if (m_RightBox->getGlobalBounds().intersects(col->getGlobalBounds()))
 		{
 			colRight = true;
-			m_RightBox->setFillColor(sf::Color::Red);
 		}
 		if (m_LeftBox->getGlobalBounds().intersects(col->getGlobalBounds()))
 		{
 			colLeft = true;
-			m_LeftBox->setFillColor(sf::Color::Red);
 		}
 
 		if (checkBottom)
@@ -109,7 +109,6 @@ void Player::update(const std::vector<sf::RectangleShape*>& _colliders)
 				m_Falling = false;
 				checkBottom = false;
 				colBottom = true;
-				m_BottomBox->setFillColor(sf::Color::Red);
 			}
 			else
 			{

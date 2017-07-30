@@ -10,7 +10,7 @@ public:
 	Enemy(float _x, float _y, float _sizeX, float _sizeY, float _speedX, float _health, float _damage, sf::Sprite* _spr);
 	~Enemy();
 
-	void update(Player* _player);
+	void update(Player* _player, float _delta);
 	void draw(sf::RenderWindow& _window);
 
 	inline void damage(float _dmg) { m_Health -= _dmg; }

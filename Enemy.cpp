@@ -22,7 +22,7 @@ Enemy::~Enemy()
 	die();
 }
 
-void Enemy::update(Player* _player)
+void Enemy::update(Player* _player, float _delta)
 {
 	if (!m_Dead)
 	{
@@ -39,10 +39,10 @@ void Enemy::update(Player* _player)
 		else
 		{
 			if (_player->getY() >= 500 - TILE_SIZE * 2 - _player->getYSize())
-				_player->removeEnergy(m_Damage);
+				_player->removeEnergy(m_Damage * _delta);
 		}
 
-		m_Sprite.move(m_Velocity);
+		m_Sprite.move(m_Velocity * _delta);
 
 		if (m_Sprite.getPosition().y > 500 - TILE_SIZE * 2)
 		{
