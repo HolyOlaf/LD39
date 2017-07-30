@@ -2,6 +2,7 @@
 #include <iostream>
 #include <ctime>
 #include <random>
+#include <Windows.h>
 
 #include <SFML/Graphics.hpp>
 
@@ -39,7 +40,7 @@ int game(sf::RenderWindow* window)
 {
 	genTileTextures("res/textures/tilesheet.png", 64);
 
-	Player player(64.f, 10.f, 64.f, 64.f, 350.f, 800.f, 150.f);
+	Player player(64.f, 10.f, 64.f, 64.f, 350.f, 800.f, 110.f);
 
 	std::vector<Tile*> ground;
 	std::vector<sf::RectangleShape*> colliders;
@@ -154,7 +155,7 @@ int game(sf::RenderWindow* window)
 				if (evnt.mouseButton.button == sf::Mouse::Button::Left)
 				{
 					float angle = atan2(mousePos.y - (player.getY() + player.getXSize() / 2), mousePos.x - (player.getX() + player.getYSize() / 2));
-					bullets.push_back(new Bullet(bulletSprite, sf::Vector2f(player.getX() + player.getXSize() / 2, player.getY() + player.getYSize() / 2), sf::Vector2f(cos(angle), sin(angle)), angle * (180 / PI), 400.f, playerDamage));
+					bullets.push_back(new Bullet(bulletSprite, sf::Vector2f(player.getX() + player.getXSize() / 2, player.getY() + player.getYSize() / 2), sf::Vector2f(cos(angle), sin(angle)), angle * (180 / PI), 900.f, playerDamage));
 					player.removeEnergy(3);
 					forceEnergyUpdate = true;
 				}
@@ -197,13 +198,13 @@ int game(sf::RenderWindow* window)
 					}
 
 					int num = genItemType(rng);
-					if (num >= 0 && num <= 500)
+					if (num >= 0 && num <= 600)
 					{
 						enemies.push_back(new Enemy(xPos, window->getSize().y - TILE_SIZE * 2 - 1, 32.f, 32.f, 110.f, 100.f, 1.f, SpidersheetSprite));
 					}
-					else if (num >= 501 && num <= 1000)
+					else if (num >= 601 && num <= 1000)
 					{
-						enemies.push_back(new Enemy(xPos, window->getSize().y - TILE_SIZE * 2 - 1, 32.f, 32.f, 80.f, 30.f, 2.f, RobotsheetSprite));
+						enemies.push_back(new Enemy(xPos, window->getSize().y - TILE_SIZE * 2 - 1, 32.f, 32.f, 80.f, 30.f, 4.f, RobotsheetSprite));
 					}
 				}
 			}
@@ -299,7 +300,9 @@ int game(sf::RenderWindow* window)
 
 int main()
 {
-	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(500, 500), "LD39", sf::Style::Close);
+	FreeConsole();
+
+	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(500, 500), "Olafshot", sf::Style::Close);
 	window->setFramerateLimit(60);
 
 	while (game(window) == 1)
